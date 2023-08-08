@@ -13,6 +13,7 @@ class PostularVacante extends Component
 
     public $cv;
     public $vacante;
+    public $postulado;
 
     protected $rules = [
         'cv' => 'required|mimes:pdf'
@@ -21,6 +22,8 @@ class PostularVacante extends Component
     public function mount(Vacante $vacante)
     {
         $this->vacante = $vacante;
+        // checkvacante() en el modelo
+        $this->postulado = $vacante->checkVacante(auth()->user());
     }
 
     public function postularme()
@@ -44,12 +47,13 @@ class PostularVacante extends Component
 
         // Mostrar al usuario el mensaje de OK
         session()->flash('mensaje','Se envió correctamente tu informacion, mucha suerte!');
-
+       
         return redirect()->back();
     }
 
     public function render()
     {
+        // dd('estoy en postularVacante',$this->postulado);
         return view('livewire.postular-vacante');
     }
 }

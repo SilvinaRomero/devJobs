@@ -49,4 +49,10 @@ class Vacante extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+     // evitar duplicados en los postulados
+     public function checkVacante(User $user)
+     {
+         return $this->candidatos->contains('user_id',$user->id);
+     }
 }
